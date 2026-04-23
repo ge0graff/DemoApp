@@ -1,0 +1,10 @@
+package com.kochetkov.demoapp.domain.model
+
+data class Movie(
+    val id: Long,
+    val title: String,
+    val genre: String,
+    val year: Int,
+    val rating: Double,
+    val imageUrl: String
+)

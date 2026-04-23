@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DemoApp</string>
+    <string name="movies_title">Movie list</string>
+    <string name="movies_load_error">Failed to load movies. Tap to retry.</string>
+</resources>
