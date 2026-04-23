@@ -28,6 +28,15 @@
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textStyle="bold" />
 
+        <ImageButton
+            android:id="@+id/likeButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/like_button_content_description"
+            android:src="@drawable/ic_favorite_outline" />
+
         <TextView
             android:id="@+id/genreText"
             android:layout_width="match_parent"
@@ -44,6 +53,13 @@
 
         <TextView
             android:id="@+id/ratingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <TextView
+            android:id="@+id/viewsText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

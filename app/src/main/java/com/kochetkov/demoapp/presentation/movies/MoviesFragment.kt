@@ -21,7 +21,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         MoviesViewModel.Factory(FakeMovieRepository())
     }
 
-    private val adapter = MoviesAdapter()
+    private val adapter = MoviesAdapter { movieId ->
+        viewModel.accept(MoviesIntent.ToggleLike(movieId))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,13 +42,22 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-                    progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-                    recyclerView.visibility = if (state.movies.isNotEmpty()) View.VISIBLE else View.GONE
+                    when (state) {
+                        MoviesState.Loading -> {
+                            progressBar.visibility = View.VISIBLE
+                            recyclerView.visibility = View.GONE
+                            errorText.visibility = View.GONE
+                            errorText.text = ""
+                        }
 
-                    errorText.visibility = if (state.errorMessage != null) View.VISIBLE else View.GONE
-                    errorText.text = state.errorMessage ?: ""
-
-                    adapter.submitList(state.movies)
+                        is MoviesState.Content -> {
+                            progressBar.visibility = View.GONE
+                            recyclerView.visibility = if (state.movies.isNotEmpty()) View.VISIBLE else View.GONE
+                            errorText.visibility = if (state.errorMessage != null) View.VISIBLE else View.GONE
+                            errorText.text = state.errorMessage ?: ""
+                            adapter.submitList(state.movies)
+                        }
+                    }
                 }
             }
         }

@@ -7,46 +7,50 @@ import com.kochetkov.demoapp.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(
     private val repository: MovieRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(MoviesState())
+    private val _state = MutableStateFlow<MoviesState>(MoviesState.Loading)
     val state: StateFlow<MoviesState> = _state.asStateFlow()
 
     fun accept(intent: MoviesIntent) {
         when (intent) {
             MoviesIntent.LoadMovies -> loadMovies()
             MoviesIntent.Retry -> loadMovies()
+            is MoviesIntent.ToggleLike -> toggleLike(intent.movieId)
         }
     }
 
     private fun loadMovies() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            _state.value = MoviesState.Loading
             runCatching { repository.getMovies() }
                 .onSuccess { movies ->
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            movies = movies,
-                            errorMessage = null
-                        )
-                    }
+                    _state.value = MoviesState.Content(
+                        movies = movies.toMutableList(),
+                        errorMessage = null
+                    )
                 }
                 .onFailure {
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            movies = emptyList(),
-                            errorMessage = "Failed to load movies. Tap to retry."
-                        )
-                    }
+                    _state.value = MoviesState.Content(
+                        movies = mutableListOf(),
+                        errorMessage = "Failed to load movies. Tap to retry."
+                    )
                 }
         }
+    }
+
+    private fun toggleLike(movieId: Long) {
+        val currentState = _state.value as? MoviesState.Content ?: return
+        val movieIndex = currentState.movies.indexOfFirst { it.id == movieId }
+        if (movieIndex == -1) return
+
+        val movie = currentState.movies[movieIndex]
+        currentState.movies[movieIndex] = movie.copy(isLiked = !movie.isLiked)
+        _state.value = currentState
     }
 
     class Factory(
