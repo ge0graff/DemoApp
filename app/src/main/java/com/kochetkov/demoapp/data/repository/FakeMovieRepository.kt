@@ -28,7 +28,7 @@ class FakeMovieRepository : MovieRepository {
                 genre = template.second,
                 year = template.third,
                 rating = rating,
-                imageUrl = "https://sun9-23.userapi.com/impg/W1PlmAbKmsLB9Yk-g7fcpI91JR0QnD7OszQ9sg/SmEGMH5_VxE.jpg?quality=90&proxy=1&sign=9fca5f4998f3605497e0ec63af3b27a7&type=video_thumb"
+                imageUrl = "https://tv.rambler.ru/epg/pic/1082950"
             )
         }
     }
