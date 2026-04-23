@@ -5,6 +5,7 @@ import com.kochetkov.demoapp.domain.model.Movie
 sealed interface MoviesIntent {
     data object LoadMovies : MoviesIntent
     data object Retry : MoviesIntent
+    data class ToggleLike(val movieId: Long) : MoviesIntent
 }
 
 data class MoviesState(

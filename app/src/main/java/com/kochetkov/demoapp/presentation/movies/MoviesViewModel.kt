@@ -21,6 +21,7 @@ class MoviesViewModel(
         when (intent) {
             MoviesIntent.LoadMovies -> loadMovies()
             MoviesIntent.Retry -> loadMovies()
+            is MoviesIntent.ToggleLike -> toggleLike(intent.movieId)
         }
     }
 
@@ -46,6 +47,20 @@ class MoviesViewModel(
                         )
                     }
                 }
+        }
+    }
+
+    private fun toggleLike(movieId: Long) {
+        _state.update { state ->
+            state.copy(
+                movies = state.movies.map { movie ->
+                    if (movie.id == movieId) {
+                        movie.copy(isLiked = !movie.isLiked)
+                    } else {
+                        movie
+                    }
+                }
+            )
         }
     }
 

@@ -21,7 +21,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         MoviesViewModel.Factory(FakeMovieRepository())
     }
 
-    private val adapter = MoviesAdapter()
+    private val adapter = MoviesAdapter { movieId ->
+        viewModel.accept(MoviesIntent.ToggleLike(movieId))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
