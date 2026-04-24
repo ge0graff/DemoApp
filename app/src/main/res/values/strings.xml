@@ -3,4 +3,14 @@
     <string name="movies_title">Movie list</string>
     <string name="movies_load_error">Failed to load movies. Tap to retry.</string>
     <string name="like_button_content_description">Like movie</string>
+    <string name="open_button_text">Открыть</string>
+    <string name="recommendations_title">Recommended movies</string>
+    <string name="movie_genre_template">Genre: %1$s</string>
+    <string name="movie_year_template">Year: %1$d</string>
+    <string name="movie_rating_template">Rating: %1$.1f</string>
+    <string name="recommendation_item_template">• %1$s</string>
+    <string name="promo_banner_title">Special offer</string>
+    <string name="promo_banner_message">Watch premium picks this weekend with 50% discount.</string>
+    <string name="promo_banner_action_text">View</string>
+    <string name="promo_banner_close_text">Close</string>
 </resources>

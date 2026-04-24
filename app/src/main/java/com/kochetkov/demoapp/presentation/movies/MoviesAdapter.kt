@@ -10,6 +10,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,7 +21,8 @@ import com.kochetkov.demoapp.domain.model.Movie
 import kotlin.math.pow
 
 class MoviesAdapter(
-    private val onLikeClick: (Long) -> Unit
+    private val onLikeClick: (Long) -> Unit,
+    private val onOpenClick: (Movie) -> Unit
 ) : ListAdapter<Movie, MoviesAdapter.MovieViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -30,7 +32,7 @@ class MoviesAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position), onLikeClick)
+        holder.bind(getItem(position), onLikeClick, onOpenClick)
     }
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -41,8 +43,9 @@ class MoviesAdapter(
         private val ratingText: TextView = itemView.findViewById(R.id.ratingText)
         private val viewsText: TextView = itemView.findViewById(R.id.viewsText)
         private val likeButton: ImageButton = itemView.findViewById(R.id.likeButton)
+        private val openButton: Button = itemView.findViewById(R.id.openButton)
 
-        fun bind(movie: Movie, onLikeClick: (Long) -> Unit) {
+        fun bind(movie: Movie, onLikeClick: (Long) -> Unit, onOpenClick: (Movie) -> Unit) {
             Glide.with(itemView)
                 .load(movie.imageUrl)
                 .centerCrop()
@@ -69,6 +72,9 @@ class MoviesAdapter(
             }
             likeButton.setOnClickListener {
                 onLikeClick(movie.id)
+            }
+            openButton.setOnClickListener {
+                onOpenClick(movie)
             }
             startPosterPulseAnimation()
         }
