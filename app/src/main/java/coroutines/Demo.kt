@@ -3,8 +3,6 @@ package coroutines
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,8 +11,6 @@ import kotlinx.coroutines.withContext
 
 
 class Demo {
-
-
 
     fun main() = runBlocking {
         val job = SupervisorJob()
@@ -32,56 +28,17 @@ class Demo {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     fun main2() = runBlocking {
         try {
             withContext(Dispatchers.IO) {
-                val a = async {
+                launch {
                     throw RuntimeException("Ошибка во внутренней корутине")
                 }
-                a.await()
             }
         } catch(exception: Exception) {
             println("Handle $exception")
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     fun main3() = runBlocking {
         val scope = CoroutineScope(Dispatchers.IO)
@@ -94,26 +51,13 @@ class Demo {
             }
         }
 
-        // Через 1 секунду отменяем скоуп
         Thread.sleep(1000)
         scope.cancel()
 
-        // Ожидаем завершение джобы
         job.join()
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    class BankAccount(val balance: Int) {
+    class BankAccount(var balance: Int) {
         fun deposit(amount: Int) {
             balance += amount
         }

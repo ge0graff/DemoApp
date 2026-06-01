@@ -150,8 +150,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         val promoBanner = PromoBannerDialogFragment()
         val transaction = parentFragmentManager.beginTransaction()
             .add(promoBanner, PromoBannerDialogFragment.TAG)
-            .add(promoBanner, PromoBannerDialog2Fragment.TAG)
-            .add(promoBanner, PromoBannerDialog3Fragment.TAG)
 
         if (parentFragmentManager.isStateSaved) {
             transaction.commitAllowingStateLoss()

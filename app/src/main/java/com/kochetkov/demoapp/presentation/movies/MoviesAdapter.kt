@@ -20,7 +20,7 @@ import com.kochetkov.demoapp.R
 import com.kochetkov.demoapp.domain.model.Movie
 import kotlin.math.pow
 
-class MoviesAdapter(
+class MoviesAdapter(]
     private val onLikeClick: (Long) -> Unit,
     private val onOpenClick: (Movie) -> Unit
 ) : ListAdapter<Movie, MoviesAdapter.MovieViewHolder>(DiffCallback) {
